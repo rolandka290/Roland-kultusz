@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roland Sektája</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #0d1117;
+      color: #c9d1d9;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+    }
+
+    .sidebar {
+      width: 220px;
+      background-color: #161b22;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      position: fixed;
+      height: 100vh;
+      border-right: 1px solid #30363d;
+      align-items: flex-start;
+    }
+    
+
+/* Általános átmenetek */
+* {
+  transition: all 0.4s ease-in-out;
+  scroll-behavior: smooth;
+}
+
+.section {
+  display: none;
+  opacity: 0;
+  transform: translateY(30px);
+  padding: 2.5rem 3rem;
+  max-width: 900px;
+  margin: 2rem auto;
+  border-radius: 14px;
+  border: 1px solid #2f3339;
+}
+
+/* Animációk */
+@keyframes slideFromTop {
+  from { opacity: 0; transform: translateY(-50px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideFromBottom {
+  from { opacity: 0; transform: translateY(50px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideFromLeft {
+  from { opacity: 0; transform: translateX(-50px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideFromRight {
+  from { opacity: 0; transform: translateX(50px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes rotateIn {
+  from { opacity: 0; transform: rotate(-5deg) scale(0.95); }
+  to   { opacity: 1; transform: rotate(0deg) scale(1); }
+}
+
+/* Aktív állapotok – minden második más animációval */
+.section.active {
+  display: block;
+  opacity: 1;
+}
+
+.section:nth-child(3).active { animation: slideFromTop 0.6s ease-out; background-color: #181c22; }
+.section:nth-child(4).active { animation: slideFromLeft 0.6s ease-out; background-color: #1b2027; }
+.section:nth-child(5).active { animation: slideFromRight 0.6s ease-out; background-color: #1e232b; }
+.section:nth-child(6).active { animation: slideFromBottom 0.6s ease-out; background-color: #21262f; }
+.section:nth-child(7).active { animation: rotateIn 0.6s ease-out; background-color: #242932; }
+.section:nth-child(8).active { animation: slideFromTop 0.6s ease-out; background-color: #272c35; }
+.section:nth-child(9).active { animation: slideFromLeft 0.6s ease-out; background-color: #2a2f38; }
+.section:nth-child(10).active { animation: rotateIn 0.6s ease-out; background-color: #2d323b; }
+
+/* Menü gomb színek változatosan */
+.sidebar button:nth-child(1) { color: #58a6ff; }
+.sidebar button:nth-child(2) { color: #91baff; }
+.sidebar button:nth-child(3) { color: #7fdfff; }
+.sidebar button:nth-child(4) { color: #5cd6ff; }
+.sidebar button:nth-child(5) { color: #3cc8ff; }
+.sidebar button:nth-child(6) { color: #2ea1ff; }
+.sidebar button:nth-child(7) { color: #2190ff; }
+.sidebar button:nth-child(8) { color: #1b78d6; }
+
+/* Hover effekt */
+.sidebar button:hover {
+  background-color: #2b3139;
+  transform: scale(1.05);
+  border-left: 3px solid #58a6ff;
+}
+
+    
+    .sidebar button {
+      background: none;
+      border: none;
+      color: #58a6ff;
+      padding: 1rem 1rem;
+      text-align: left;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+
+    .sidebar button:hover {
+      color: #1f6feb;
+      background-color: #21262d;
+      transform: translateX(5px);
+    }
+
+    .sidebar button.active {
+  background-color: #21262d;
+  color: #ffffff;
+  border-left: 3px solid #58a6ff;
+  font-weight: bold;
+  transform: translateX(5px);
+}
+
+
+    .main-content {
+      margin-left: 220px;
+      padding: 3rem 4rem;
+      flex-grow: 1;
+      transition: all 0.5s ease;
+    }
+
+    .page-title {
+      text-align: center;
+      font-size: 2.2rem;
+      margin-bottom: 2.5rem;
+      color: #58a6ff;
+      text-shadow: 0 0 5px #58a6ff;
+    }
+
+    .section {
+      display: none;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .section.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section h2, .section p, .section ul {
+      margin-left: 1rem;
+    }
+
+    .prayer-image {
+      display: block;
+      margin: 2rem auto;
+      border-radius: 50%;
+      width: 400px;
+      box-shadow: 0 0 15px #58a6ff;
+    }
+
+    audio {
+      display: block;
+      margin: 1rem auto;
+    }
+    
+    .section p,
+.section li {
+  line-height: 1.9;
+  margin-bottom: 1rem;
+  font-size: 1.05rem;
+  letter-spacing: 0.3px;
+}
+
+.section h2 {
+  margin-bottom: 1.5rem;
+}
+
+.section ul {
+  padding-left: 1.5rem;
+}
+
+.section {
+  padding: 3rem 4rem;
+}
+
+.section {
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <button onclick="showSection('koszonto')">Köszöntő</button>
+    <button onclick="showSection('teremtestortenet')">Teremtéstörténet</button>
+    <button onclick="showSection('istenunkrol')">Istenünkről</button>
+    <button onclick="showSection('szabalyok')">Szabályok</button>
+    <button onclick="showSection('imadkozas')">Imádkozás</button>
+    <button onclick="showSection('profeciak')">Próféciák</button>
+    <button onclick="showSection('teszt')">Belépési Teszt</button>
+    <button onclick="showSection('tiltottchamp')">Tiltott Champek</button>
+
+  </div>
+
+  <div class="main-content">
+    <div class="page-title">ROLAND SZENT SZEKTÁJA</div>
+
+    <div id="koszonto" class="section active">
+      <h2>Köszöntő</h2>
+      <p>És szólt Roland, a Felkent:<br>
+      „Hívlak titeket, halandók, kik botladoztok a Rift sötét ösvényein. Vessétek el a majomságot, tagadjátok meg a Zedet, s ne válasszatok Akalit, mert útjuk a szakadékba vezet.”</p>
+      <p>És megparancsolá:<br>
+      - Játszani a LoL-lal <strong>kötelező</strong>, szeretni <strong>tilos</strong>.<br>
+      - Aki assasinnal játszik, <strong>szenvedjen</strong> belső önutálattól.<br>
+      - Aki 90 IQ alatt van, az <strong>botként</strong> fog újraszületni.<br>
+      - És végül: <strong>ne legyél majom</strong>. Soha.</p>
+      <p>Mert a szekta kapuja nyitva áll azok előtt, akik tudják, mit jelent háromszor egymás után bepingelni a jungle-t… és mégis maradni.</p>
+    </div>
+
+    <div id="teremtestortenet" class="section">
+      <h2>Teremtéstörténet</h2>
+      <p>Kezdetben vala az Üresség.<br>
+      És az Üresség közepette ott ült Roland, s unatkozott.</p>
+      <p>És Roland mondá: „Legyen játék!” – és lőn LoL.<br>
+      És a játékban vala Yasuo, Zed és Master Yi,<br>
+      és a botlane 0/10-re állt.</p>
+      <p>És Roland tekintett művére, s így szólt:<br>
+      „Ez... rossz.”</p>
+      <p>Ezután megteremté a kontrasztot:<br>
+      fákat, füvet, gondolkodást és értelmes kommunikációt.<br>
+      És ezek után... még rosszabb lett.</p>
+      <p>Az emberek nem választották a zöld mezőt,<br>
+      hanem a rankedet, a toxikus chatet, és az ADC picket.<br>
+      És Roland sírt,<br>
+      de sírás közben egy új frakciót hozott létre:<br>
+      <strong>A Szent Szekta</strong>, kik harci nyögések közepette élnek és feedelnek,<br>
+      de <em>tudják, miért szenvednek</em>.</p>
+    </div>
+
+    <div id="istenunkrol" class="section">
+      <h2>Istenünkről</h2>
+      <p>Roland: az Első Midlaner.<br>
+      Az, ki 1v9-et próbál, miközben a csapata épp surrenderel.</p>
+      <p>Ő az, aki sosem flame-el, csak passzívan lenéz.<br>
+      Ki 6/1-ben áll, mégis pingeli a supportot.<br>
+      Ki tudja, hogy a Teemo valójában sátáni csapda.</p>
+      <p>Roland nem kérdez, <strong>lát</strong>.<br>
+      Roland nem ígér, <strong>végez</strong>.<br>
+      Roland egyszer megölte a Baron-t… <em>egyetlen Q-val</em>.<br>
+      Vagy legalábbis ezt mondja.</p>
+    </div>
+
+    <div id="szabalyok" class="section">
+      <h2>Szabályok</h2>
+      <ul>
+        <li><strong>Assasin champ gyűlölete kötelező.</strong><br>
+        Különösen: Zed, Akali, Katarina, Naafiri. Használatuk nem tiltott, de önutálat kötelező.</li>
+        <li><strong>Minimum 90 IQ szükséges a belépéshez.</strong><br>
+        Teszt nincs, Roland úgyis tudja.</li>
+        <li><strong>A majmok ki vannak zárva.</strong><br>
+        Ha úgy játszol, mint egy majom, a szekta megtagad téged.</li>
+        <li><strong>Harci nyögések kötelezőek ütközet közben.</strong><br>
+        Aki némán fightol, az a hit nélküli.</li>
+        <li><strong>Brawlhalla alatt kötelező a trágár kifejezések használata.</strong><br>
+        Ez a Szent Düh Kiengedése, ne fojtsd el.</li>
+        <li><strong>Pozitív viselkedés chatben szigorúan tilos.</strong><br>
+        "GG" = Gonosz Gesztus, "WP" = Wilágtalan Pingvin.</li>
+      </ul>
+    </div>
+
+    <div id="tiltottchamp" class="section">
+      <h2>Tiltott Champek</h2>
+      <ul>
+        <li><strong>Teemo</strong> – Akik őt választják, valószínűleg még a saját anyjukat is megpingelnék.</li>
+        <li><strong>Zed</strong> – Akik úgy érzik, hogy az árnyékuknál is mélyebb a személyiségük… pedig nem.</li>
+        <li><strong>Blitzcrank</strong> – Ők azok, akik szeretik elrontani a meccsed egy random hookkal – és még büszkék is rá.</li>
+        <li><strong>Dr. Mundo</strong> – Aki szeret úgy tenni, mintha tank lenne, de igazából csak rohangál, és közben dobálja a cipőt.</li>
+        <li><strong>Garen</strong> – A szent forgás bajnoka. Akinek az egyetlen stratégiája: „Q, E, R, imádkozz”. Minden mondata „DEMÁCIAAA!”-val kezdődik – és végződik is.</li>
+        <li><strong>Lux</strong> – A mágikus lány, aki minden killeket ellop. Támogatónak hiszi magát, de a statlapja inkább 14/4/0. Asszisztra nem futja, csak villanásokra és pentastealre.</li>
+        <li><strong>Master Yi</strong> – Ők azok, akik szerint stratégia = „Q mindenre, ami mozog”.</li>
+        <li><strong>Mel</strong> – Aprómellű néger, akinek fenkölt célja, hogy elkapja a tökeid.</li>
+        <li><strong>Yasuo</strong> – A haja gyakran szenved merevedési zavarban. Mint a játékosa: csak akkor áll fel, ha feedel.</li>
+        <li><strong>Warwick</strong> – Akik szerint az „ugatás és szaglászás” már stratégiának számít.</li>
+        <li><strong>Ekko</strong> – Mindig azt hiszi, hogy most jött el az ideje. Pedig nem. A visszapörgetett idő sem menti meg attól, hogy 0/7-ben álljon – újra meg újra.</li>
+      </ul>
+    </div>
+    
+
+    <div id="imadkozas" class="section">
+      <h2>Imádkozás</h2>
+      <p>Itt imádhatod Rolandot, aki megnyitja elméd a játék értelmetlenségének elfogadására.</p>
+      <img src="opera_S3M5IUGuGa.png" alt="Roland szent képe" class="prayer-image">
+      <audio controls>
+        <source src="Roland leszállt az égből.mp3" type="audio/mpeg">
+        A böngésződ nem támogatja az audiolejátszást.
+      </audio>
+    </div>
+
+    <div id="profeciak" class="section">
+  <h2>Próféciák</h2>
+  <p><em>És megnyilatkozott Roland álomban, csirkecomb evés közben, és mondá:</em></p>
+  <p><strong>„Eljő az idő, mikor minden assasin elbotlik egy bokorban.</strong><br>
+  A Zed ultija vissza sem tér,<br>
+  Az Akali füstje szellő lesz,<br>
+  S Naafiri kutyái visszamennek az állatmenhelyre.”</p>
+
+  <p>És látá Roland, hogy Katarina körbe pörgött –<br>
+  <strong>de senki nem halt meg.</strong><br>
+  És sírt. Majd röhögött. Majd sírt megint.</p>
+
+  <p>Eljő a patch, mely nerfeli az árnyékot is.<br>
+  A cooldown 80 másodperc lesz mindenre,<br>
+  és az assasin main-ek sírni fognak,<br>
+  <strong>de csak belül, mert már nem lesz chatjük.</strong></p>
+
+  <p>És aki assasint választ,<br>
+  annak a LoL automatikusan választ helyette egy Teemót,<br>
+  pink warddal kezdő tárgynak.</p>
+
+  <p>És Roland tanítványai felkiáltanak:<br>
+  „Ez az! Ez az, amire vártunk, testvérek!”</p>
+
+  <p>Mert boldog az, ki tankot pickel,<br>
+  és békében farmol 10 percig,<br>
+  míg az assasinok egymást ütik a saját bázisukon.</p>
+</div>
+
+    <div id="teszt" class="section">
+  <h2>Belépési Teszt</h2>
+  <p><em>Töltsd ki őszintén. Roland úgyis tudja, ha hazudsz.</em></p>
+  <div id="kerdes-container"></div>
+  <div id="teszt-eredmeny" style="margin-top: 2rem; font-weight: bold;"></div>
+</div>
+
+<script>
+  const kerdesek = [
+    {
+      kerdes: "Használtál valaha Yasut vagy Zedet örömmel?",
+      valaszok: [
+        { szoveg: "Igen", ertek: 0 },
+        { szoveg: "Nem", ertek: 1 },
+        { szoveg: "Csak megnéztem, milyen érzés feedelni", ertek: 0 }
+      ]
+    },
+    {
+      kerdes: "Mi az ideális reakció, ha a csapattársad pickel Katarinát?",
+      valaszok: [
+        { szoveg: "Tapsolok", ertek: 0 },
+        { szoveg: "Kiszállok az ablakon", ertek: 0 },
+        { szoveg: "/mute all + harci nyögés", ertek: 1 }
+      ]
+    },
+    {
+      kerdes: "Mennyi az IQ-d? (Roland figyel!)",
+      valaszok: [
+        { szoveg: "70", ertek: 0 },
+        { szoveg: "90+", ertek: 1 },
+        { szoveg: "Hányasig lehet számolni?", ertek: 0 }
+      ]
+    },
+    {
+      kerdes: "Mi a válasz a harc hívására?",
+      valaszok: [
+        { szoveg: "„GL HF”", ertek: 0 },
+        { szoveg: "Szent nyögéssorozat + engage", ertek: 1 },
+        { szoveg: "/ff 15", ertek: 0 }
+      ]
+    },
+    {
+      kerdes: "Melyik a legszentebb skin?",
+      valaszok: [
+        { szoveg: "Pool Party Sett", ertek: 0 },
+        { szoveg: "Pajamas Guardian Soraka", ertek: 0 },
+        { szoveg: "Amit Roland épp visel, ha van rá skin", ertek: 1 }
+      ]
+    }
+  ];
+
+  let aktualisKerdes = 0;
+  let pont = 0;
+
+  function mutatKerdes() {
+    const container = document.getElementById("kerdes-container");
+    container.innerHTML = "";
+
+    if (aktualisKerdes >= kerdesek.length) {
+      eredmenyMegjelenitese();
+      return;
+    }
+
+    const q = kerdesek[aktualisKerdes];
+
+    const kerdesElem = document.createElement("p");
+    kerdesElem.innerText = q.kerdes;
+    container.appendChild(kerdesElem);
+
+    q.valaszok.forEach((valasz, index) => {
+      const label = document.createElement("label");
+      label.style.display = "block";
+      const input = document.createElement("input");
+      input.type = "radio";
+      input.name = "valasz";
+      input.value = valasz.ertek;
+      input.onclick = () => {
+        pont += valasz.ertek;
+        aktualisKerdes++;
+        mutatKerdes();
+      };
+      label.appendChild(input);
+      label.appendChild(document.createTextNode(" " + valasz.szoveg));
+      container.appendChild(label);
+    });
+  }
+
+  function eredmenyMegjelenitese() {
+    let uzenet = "";
+    switch (pont) {
+      case 5:
+        uzenet = "Felkent Tag vagy, üdv a Szentek között.";
+        break;
+      case 3:
+      case 4:
+        uzenet = "Nem vagy valami jó, te büdös Yasu.";
+        break;
+      case 1:
+      case 2:
+        uzenet = "Feketebőrű vagy? Ilyen válaszokkal nagy esélyt látunk erre.";
+        break;
+      default:
+        uzenet = "Szegény gyermekem, látom retardációban szenvedsz.";
+        break;
+    }
+    document.getElementById("teszt-eredmeny").textContent = uzenet;
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const tesztGomb = document.querySelector('button[onclick="showSection(\'teszt\')"]');
+    if (tesztGomb) {
+      tesztGomb.addEventListener("click", () => {
+        aktualisKerdes = 0;
+        pont = 0;
+        if (!document.getElementById("teszt-eredmeny").textContent) {
+          mutatKerdes();
+        }
+      });
+    }
+  });
+</script>
+  </div>
+
+  <script>
+   function showSection(id) {
+  const sections = document.querySelectorAll(".section");
+  sections.forEach((section) => section.classList.remove("active"));
+  
+  const buttons = document.querySelectorAll(".sidebar button");
+  buttons.forEach((btn) => btn.classList.remove("active")); // <–– új sor
+  
+  const target = document.getElementById(id);
+  setTimeout(() => {
+    target.classList.add("active");
+    toggleImadkozasStuff();
+  }, 100);
+
+  // Aktív gomb kijelölése
+  const activeButton = Array.from(buttons).find(btn => btn.getAttribute("onclick").includes(id));
+  if (activeButton) activeButton.classList.add("active"); // <–– új sor
+}
+
+  </script>
+  <!-- Tetszik amit látsz? doboz -->
+<div id="feedback-box" style="position: fixed; bottom: 20px; right: 20px; background-color: #161b22; color: #c9d1d9; border: 1px solid #30363d; padding: 1rem; border-radius: 12px; box-shadow: 0 0 10px #58a6ff; z-index: 9999;">
+  <p style="margin: 0 0 0.5rem 0;">Tetszik amit látsz?</p>
+  <button onclick="valasz('igen')" style="margin-right: 0.5rem; background-color: #238636; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer;">Igen</button>
+  <button onclick="valasz('nem')" style="background-color: #da3633; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer;">Nem</button>
+</div>
+
+<script>
+  function valasz(valasz) {
+    const box = document.getElementById('feedback-box');
+    if (valasz === 'igen') {
+      alert('Nem érdekel');
+    } else {
+      alert('Kössz az őszinteséget');
+    }
+    box.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    box.style.opacity = '0';
+    box.style.transform = 'translateY(20px)';
+    setTimeout(() => {
+      box.remove();
+    }, 500);
+  }
+</script>
+<script>
+  const wrapper = document.getElementById("drag-wrapper");
+  const message = document.getElementById("drag-message");
+
+  let offsetX = 0;
+  let offsetY = 0;
+  let isDragging = false;
+
+  wrapper.addEventListener("mousedown", function (e) {
+    isDragging = true;
+    wrapper.classList.add("dragging");
+    offsetX = e.clientX - wrapper.getBoundingClientRect().left;
+    offsetY = e.clientY - wrapper.getBoundingClientRect().top;
+  });
+
+  document.addEventListener("mousemove", function (e) {
+    if (isDragging) {
+      wrapper.style.left = e.clientX - offsetX + "px";
+      wrapper.style.top = e.clientY - offsetY + "px";
+      wrapper.style.transform = "none";
+      message.style.display = "block";
+    }
+  });
+
+  document.addEventListener("mouseup", function () {
+    if (isDragging) {
+      isDragging = false;
+      wrapper.classList.remove("dragging");
+
+      const rect = wrapper.getBoundingClientRect();
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight * 0.65;
+
+      const inCenter =
+        Math.abs(rect.left + rect.width / 2 - centerX) < 50 &&
+        Math.abs(rect.top + rect.height / 2 - centerY) < 50;
+
+      if (inCenter) {
+        wrapper.style.left = "50%";
+        wrapper.style.top = "65%";
+        wrapper.style.transform = "translate(-50%, -50%)";
+        message.textContent = "Köszönöm.";
+        setTimeout(() => {
+          message.style.display = "none";
+          message.textContent = "Te mit keresel itt? Tedd vissza az urad középre.";
+        }, 2000);
+      }
+    }
+  });
+
+  // csak az imadkozas résznél jelenjen meg
+  function toggleImadkozasStuff() {
+    const isActive = document.getElementById("imadkozas").classList.contains("active");
+    wrapper.style.display = isActive ? "block" : "none";
+    message.style.display = isActive && !wrapper.style.transform.includes("translate") ? "block" : "none";
+  }
+
+  const eredetiShowSection = showSection;
+  showSection = function (id) {
+    const sections = document.querySelectorAll(".section");
+    sections.forEach((section) => section.classList.remove("active"));
+    const target = document.getElementById(id);
+    setTimeout(() => {
+      target.classList.add("active");
+      toggleImadkozasStuff();
+    }, 100);
+  };
+
+  window.addEventListener("load", toggleImadkozasStuff);
+</script>
+
+</body>
+</html>
