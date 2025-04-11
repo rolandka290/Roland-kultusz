@@ -208,6 +208,7 @@
     <button onclick="showSection('profeciak')">Próféciák</button>
     <button onclick="showSection('teszt')">Belépési Teszt</button>
     <button onclick="showSection('tiltottchamp')">Tiltott Champek</button>
+    <button id="hivoink-gomb" onclick="showSection('hivoink')" style="display: none; color: #e2c770;">Hívőink</button>
 
   </div>
 
@@ -291,9 +292,36 @@
         <li><strong>Yasuo</strong> – A haja gyakran szenved merevedési zavarban. Mint a játékosa: csak akkor áll fel, ha feedel.</li>
         <li><strong>Warwick</strong> – Akik szerint az „ugatás és szaglászás” már stratégiának számít.</li>
         <li><strong>Ekko</strong> – Mindig azt hiszi, hogy most jött el az ideje. Pedig nem. A visszapörgetett idő sem menti meg attól, hogy 0/7-ben álljon – újra meg újra.</li>
+        <li><strong>Naafiri</strong> – Aki szerint a kutyás horror a legjobb játékelem. Tény: még az ulija is csak csaholás közben működik.</li>
+        <li><strong>Illaoi</strong> – Vallásos izomasszony, aki szereti arcodba verni a hitet… szó szerint. És mindig eltalál. Mindig.</li>
+        <li><strong>Akshan</strong> – A cigány Robin Hood. Elveszi a killeket, feltámasztja a haverokat, majd meghal egy bokorban. Mindezt ingyen.</li>
+        <li><strong>Senna</strong> – Támogatónak készült, de sniperként éli ki minden frusztrációját. Aki heal helyett inkább killre megy.</li>
+        <li><strong>Draven</strong> – Mert mi más mondana „szolid csapatszellem”-et, mint egy karakter, aki a saját nevét üvölti minden percben?</li>
+        <li><strong>Tryndamere</strong> – A karakter, aki nem halt meg, csak… még nem járt le az ultija. Kivéve, ha 0/12-ben van – akkor is kiírja a GG-t.</li>
+        <li><strong>Ezreal</strong> – Ő az, aki mindig mellélő, de valahogy mégis MVP. Mert ha nem talál el, legalább nem feedel. (Kivéve, ha igen.)</li>
+        <li><strong>Akali</strong> – Az árnyak ninja hercegnője, aki szerint a füst az új skill. Ha eltűnik, az a baj. Ha nem tűnik el, az a baj.</li>
+      
+
       </ul>
     </div>
     
+    <div id="hivoink" class="section">
+      <h2>Hívőink</h2>
+    
+      <div style="margin-bottom: 2rem;">
+        <h3>Dávid</h3>
+        <p>Dávid 16 éves, Budapesten él, és jelenleg a Budapesti Műszaki SzC Than Károly Technikumba jár, a Wesselényi Miklós telephelyre. Informatika szakos diák, akinek az átlaga 3,7 és 5 között mozog. Érdeklődése elsősorban a programozás és az FPS játékok köré épül, mint például a League of Legends és a Sea of Thieves. Emellett kedveli az animéket, különösen azokat, amelyek gyors és pörgős történetvezetéssel rendelkeznek. Különös figyelmet fordít a gyűrűkre is – 2025 elején több darabot is rendelt.</p>
+    
+        <p>Dávid személyisége zárkózott, titokzatos, és gyakran filozofikus. Kiemelkedő érzelmi intelligenciával rendelkezik, gyorsan kiismeri az embereket. Bár introvertált, a beszélgetéseiben sokszor mély gondolatokat oszt meg. Jelenleg egyetemi szintű programozási irányba szeretne továbbtanulni, és bár gyakran demotivált, céljai vannak. Nem hívő, és időnként az élet értelméről is kritikus hangnemben beszél.</p>
+      </div>
+    
+      <div>
+        <h3>Luca</h3>
+        <p>Márton Luca, 15 éves, a Vedres István Technikumban tanul, 10. osztályos. Kreatív és egyedi személyiség, akit érdekelnek a kézműves dolgok és a mágneskészítés. Emellett gyakran olvas, szereti a képregényeket, és nagy rajongója a power metal és symphonic metal zenéknek – különösen a Pentakill „Lost Chapter” albuma szerepel a kedvencei között.</p>
+    
+        <p>Luca személyisége hullámzó: hangulatait és reakcióit nagyban befolyásolják a napi történések. Pesszimista beállítottságú, fekete ruhákban jár, és gyakran érez kárörömöt mások hibáin. Szeret sokat beszélni, és gyakran mesél a napja eseményeiről. Bár állítása szerint nem kedveli az osztálytársait, ez valószínűleg csak néhány emberre vonatkozik. Szereti az Arcane, Helluva Boss és Hazbin Hotel sorozatokat, és időnként League of Legends-ezik is.</p>
+      </div>
+    </div>
 
     <div id="imadkozas" class="section">
       <h2>Imádkozás</h2>
@@ -340,6 +368,39 @@
   <div id="kerdes-container"></div>
   <div id="teszt-eredmeny" style="margin-top: 2rem; font-weight: bold;"></div>
 </div>
+
+<script>
+  const isteniFenyGomb = document.getElementById("isteni-feny");
+
+  isteniFenyGomb.addEventListener("click", () => {
+    // létrehozunk egy átfedő fehér réteget
+    const overlay = document.createElement("div");
+    overlay.style.position = "fixed";
+    overlay.style.top = 0;
+    overlay.style.left = 0;
+    overlay.style.width = "100vw";
+    overlay.style.height = "100vh";
+    overlay.style.zIndex = "9998";
+    overlay.style.pointerEvents = "none";
+    overlay.style.backgroundColor = "#ffffff";
+    overlay.style.opacity = "0";
+    overlay.style.transition = "opacity 0.05s ease";
+    document.body.appendChild(overlay);
+
+    let count = 0;
+    const interval = setInterval(() => {
+      overlay.style.opacity = count % 2 === 0 ? "1" : "0";
+      document.body.style.filter = count % 2 === 0 ? "invert(1) contrast(200%) brightness(300%)" : "none";
+      count++;
+      if (count > 30) {
+        clearInterval(interval);
+        document.body.style.filter = "none";
+        overlay.remove();
+      }
+    }, 80);
+  });
+</script>
+
 
 <script>
   const kerdesek = [
@@ -427,6 +488,7 @@
       case 5:
         uzenet = "Felkent Tag vagy, üdv a Szentek között.";
         break;
+        
       case 3:
       case 4:
         uzenet = "Nem vagy valami jó, te büdös Yasu.";
